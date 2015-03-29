@@ -53,3 +53,35 @@ body {
   margin: auto;
   overflow: hidden;
 }
+
+@-webkit-keyframes fadeIn { from { opacity:0; } to { opacity:1; } }
+@-moz-keyframes fadeIn { from { opacity:0; } to { opacity:1; } }
+@keyframes fadeIn { from { opacity:0; } to { opacity:1; } }
+
+.example-enter {
+  opacity:0;
+  -webkit-animation:fadeIn ease-in-out 1;
+  -moz-animation:fadeIn ease-in-out 1;
+  animation:fadeIn ease-in-out 1;
+
+  -webkit-animation-fill-mode:forwards;
+  -moz-animation-fill-mode:forwards;
+  animation-fill-mode:forwards;
+
+  -webkit-animation-duration:1.5s;
+  -moz-animation-duration:1.5s;
+  animation-duration:1.5s;
+}
+
+.example-enter.example-enter-active {
+  opacity: 1;
+}
+
+.example-leave {
+  opacity: 1;
+  transition: opacity .5s ease-in;
+}
+
+.example-leave.example-leave-active {
+  opacity: 0.01;
+}

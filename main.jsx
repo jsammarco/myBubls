@@ -1,4 +1,5 @@
-/*global React, render*/
+/*global React*/
+var ReactCSSTransitionGroup = React.addons.CSSTransitionGroup;
 
 var App = React.createClass({
       render: function() {
@@ -15,7 +16,7 @@ var App = React.createClass({
             </div>
             <div className="row">
               <div className="col-md-12">
-                <Items />
+                <Bubls />
               </div>
             </div>
           </div>
@@ -23,24 +24,40 @@ var App = React.createClass({
       }
     });
 
-    var Items = React.createClass({
+    var Bubls = React.createClass({
       getInitialState: function() {
-        return {items: []};
+        return {mounted: false,
+                items: [
+                        "This is my bubl that I made! This bubl can hold your notes and more.",
+                        "Showing at 4:45pm Sunday"
+                        ]};
+      },
+      componentDidMount: function() {
+          this.setState({ mounted: true });
       },
       handleChange: function(e) {
-        this.setState({items: e.target.value});
+        //this.setState({items: e.target.value});
       },
       clearAndFocusInput: function() {
         this.setState({items: ''}); // Clear the input
         // We wish to focus the <input /> now!
       },
       render: function() {
+        if(this.state.mounted){
+          var items = this.state.items.map(function(item, i) {
+            return (
+              <div key={item} className="bubl" onClick={this.handleChange.bind(this, i)}>
+                <Star>&#x2606;</Star>
+                <p className="bubleContent">{item}</p>
+              </div>
+            );
+          }.bind(this));
+        }
         return (
-           <div className="bubl">
-              <Star>&#x2606;</Star>
-              <p className="bubleContent">This is my bubl that I made! This bubl can hold your notes and more.</p>
-            </div>
-        );
+           <ReactCSSTransitionGroup transitionName="example">
+            {items}
+          </ReactCSSTransitionGroup>
+        )
       }
     });
 
