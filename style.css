@@ -26,6 +26,8 @@ body {
   margin:3px;
   height: 200px;
   width: 200px;
+  text-align: justify;
+  font-size: 15px;
 }
 
 .star {
