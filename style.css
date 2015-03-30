@@ -30,20 +30,30 @@ body {
   font-size: 15px;
 }
 
+.controls {
+  cursor: pointer;
+  cursor: hand;
+}
 .star {
   font-size: 30px;
   position: absolute;
   top: 5px;
   right: 45px;
-  cursor: pointer;
-  cursor: hand;
 }
-.star-true:after{
+.star-true:after {
   content: "★";
 }
-.star-false:after{
+.star-false:after {
   content: "☆";
   color: silver;
+}
+.remove:after {
+  position: absolute;
+  left:50px;
+  content: "x";
+  font-size:30px;
+  color: red;
+
 }
 
 .bubleContent{

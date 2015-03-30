@@ -83,6 +83,7 @@ var AddBubl = React.createClass({
     return {text: ""};
   },
   onAdd: function(e) {
+    e.preventDefault();
     this.props.addBubl(this.state.text);
     this.setState({text: ""});
   },
@@ -92,17 +93,19 @@ var AddBubl = React.createClass({
   render: function() {
     var text = this.state.text;
     return (
+      <form onSubmit={this.onAdd}>
       <div className="input-group">
-        <input type="text" value={text} onChange={this.onChange} className="form-control" placeholder="Enter a New Bubl..." />
+        <input type="text" value={text} onChange={this.onChange} className="form-control" autoFocus="true" placeholder="Enter a New Bubl..." />
         <span className="input-group-btn">
           <button className="btn btn-default" type="button" onClick={this.onAdd}>Add</button>
         </span>
       </div>
+      </form>
     );
   }
 });
 
-/* Bubl Controls */
+/* Bubl Controls (Starred, etc...) */
 var Controls = React.createClass({
   getInitialState: function() {
     return {starred: this.props.starred};
@@ -110,37 +113,17 @@ var Controls = React.createClass({
   handleClick: function(e) {
     this.setState({starred: !this.state.starred});
   },
-  render: function() {
-    return (
-       <div className={"star star-"+this.state.starred} onClick={this.handleClick}></div>
-    );
-  }
-});
-/*
-var Item = React.createClass({
-  getInitialState: function() {
-    return {userInput: ''};
-  },
-  handleChange: function(e) {
-    this.setState({userInput: e.target.value});
-  },
-  clearAndFocusInput: function() {
-    this.setState({userInput: ''}); // Clear the input
-    // We wish to focus the <input /> now!
+  remove: function(e) {)
+    //this.props.removeItem();
   },
   render: function() {
     return (
-      <div>
-        <div onClick={this.clearAndFocusInput}>
-          Click to Focus and Reset
-        </div>
-        <input
-          value={this.state.userInput}
-          onChange={this.handleChange}
-        />
+      <div className="controls">
+        <div className={"star star-"+this.state.starred} onClick={this.handleClick}></div>
+        <div className="remove" onClick={this.remove}>x</div>
       </div>
     );
   }
 });
-*/
+
 React.render(<App/>, document.getElementById('app'))
