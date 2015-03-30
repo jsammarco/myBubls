@@ -113,7 +113,7 @@ var Controls = React.createClass({
   handleClick: function(e) {
     this.setState({starred: !this.state.starred});
   },
-  remove: function(e) {)
+  remove: function(e) {
     //this.props.removeItem();
   },
   render: function() {
