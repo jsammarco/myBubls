@@ -24,6 +24,7 @@ var App = React.createClass({
   }
 });
 
+/* Bubls */
 var Bubls = React.createClass({
   getInitialState: function() {
     return {mounted: false,
@@ -39,14 +40,15 @@ var Bubls = React.createClass({
   componentDidMount: function() {
       this.setState({ mounted: true });
   },
-  addBubl: function(e) {
-    if (this.state.text) {
+  addBubl: function(text) {
+    if (text) {
       var nextItems = this.state.items.concat([{
-        text: this.state.text
+        starred: false,
+        text: text
       }]);
+      console.log(nextItems);
+      this.setState({ items: nextItems });
     }
-    console.log(234);
-    this.setState({ items: nextItems });
   },
   handleEdit: function() {
 
@@ -68,37 +70,39 @@ var Bubls = React.createClass({
     }
     return (
        <ReactCSSTransitionGroup transitionName="example">
-        <AddBubl />
+        <AddBubl addBubl={this.addBubl} />
         {items}
       </ReactCSSTransitionGroup>
     )
   }
 });
 
+/* Add Bubl Form*/
 var AddBubl = React.createClass({
   getInitialState: function() {
     return {text: ""};
   },
-  onAdd: function() {
-    //Bubls.addBubl(this.state.text);
-    this.setState({text: ''});
-    this.props.value = "";
+  onAdd: function(e) {
+    this.props.addBubl(this.state.text);
+    this.setState({text: ""});
   },
   onChange: function(e) {
     this.setState({text: e.target.value});
   },
   render: function() {
+    var text = this.state.text;
     return (
       <div className="input-group">
-        <input type="text" className="form-control" placeholder="Enter a New Bubl..." />
+        <input type="text" value={text} onChange={this.onChange} className="form-control" placeholder="Enter a New Bubl..." />
         <span className="input-group-btn">
-          <button className="btn btn-default" type="button" onChange={this.onChange} onClick={this.onAdd}>Add</button>
+          <button className="btn btn-default" type="button" onClick={this.onAdd}>Add</button>
         </span>
       </div>
     );
   }
 });
 
+/* Bubl Controls */
 var Controls = React.createClass({
   getInitialState: function() {
     return {starred: this.props.starred};
