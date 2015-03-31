@@ -118,6 +118,7 @@ var AddBubl = React.createClass({
           <button className="btn btn-default" type="button" onClick={this.onAdd}>Add</button>
         </span>
       </div>
+      <a href="https://github.com/jsammarco/myBubls" target="_blank">github.com/jsammarco/myBubls</a>
       </form>
     );
   }
