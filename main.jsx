@@ -27,28 +27,50 @@ var App = React.createClass({
 /* Bubls */
 var Bubls = React.createClass({
   getInitialState: function() {
+    var items = [];
+    if (localStorage.items === undefined) {
+      localStorage.setItem('items', JSON.stringify(
+          [{
+            "starred": false,
+            "text": "This is my bubl that I made! This bubl can hold your notes and more.",
+          },
+          {
+            "starred": true,
+            "text": "Showing at 4:45pm Sunday"
+          }]
+      ));
+    }
+    items = JSON.parse(localStorage.getItem("items"));
     return {mounted: false,
-            items: [{
-                      starred: false,
-                      text: "This is my bubl that I made! This bubl can hold your notes and more.",
-                    },
-                    {
-                      starred: true,
-                      text: "Showing at 4:45pm Sunday"
-                    }]};
+            items: items};
   },
   componentDidMount: function() {
       this.setState({ mounted: true });
   },
   addBubl: function(text) {
     if (text) {
-      var nextItems = this.state.items.concat([{
-        starred: false,
-        text: text
+      var items = this.state.items.concat([{
+        "starred": false,
+        "text": text
       }]);
-      console.log(nextItems);
-      this.setState({ items: nextItems });
+      this.setState({ items: items });
+      localStorage.setItem('items', JSON.stringify(items));
+      console.log(this.refs.textBox);
     }
+  },
+  toggleStarred: function(index, starred) {
+    this.state.items[index] = {
+      "starred": starred,
+      "text": this.state.items[index].text
+    };
+    localStorage.setItem('items', JSON.stringify(this.state.items));
+    this.setState({ items: this.state.items });
+  },
+  removeBubl: function(index) {
+    items = JSON.parse(localStorage.getItem("items"));
+    items.splice(index,1);
+    this.setState({ items: items });
+    localStorage.setItem('items', JSON.stringify(items));
   },
   handleEdit: function() {
 
@@ -58,11 +80,11 @@ var Bubls = React.createClass({
     // We wish to focus the <input /> now!
   },
   render: function() {
-    if(this.state.mounted){
+    if(this.state.mounted && this.state.items.length > 0){
       var items = this.state.items.map(function(item, i) {
         return (
-          <div key={i} className="bubl" onClick={this.handleEdit.bind(this, i)}>
-            <Controls starred={item.starred}>&#x2606;</Controls>
+          <div className="bubl" onClick={this.handleEdit.bind(this, i)}>
+            <Controls index={i} starred={item.starred} toggleStarred={this.toggleStarred} removeBubl={this.removeBubl} />
             <p className="bubleContent">{item.text}</p>
           </div>
         );
@@ -95,7 +117,7 @@ var AddBubl = React.createClass({
     return (
       <form onSubmit={this.onAdd}>
       <div className="input-group">
-        <input type="text" value={text} onChange={this.onChange} className="form-control" autoFocus="true" placeholder="Enter a New Bubl..." />
+        <input type="text" ref="textBox" value={text} onChange={this.onChange} className="form-control" autoFocus="true" placeholder="Enter a New Bubl..." />
         <span className="input-group-btn">
           <button className="btn btn-default" type="button" onClick={this.onAdd}>Add</button>
         </span>
@@ -110,17 +132,19 @@ var Controls = React.createClass({
   getInitialState: function() {
     return {starred: this.props.starred};
   },
-  handleClick: function(e) {
-    this.setState({starred: !this.state.starred});
+  removeBubl: function(e) {
+    this.props.removeBubl(this.props.index);
   },
-  remove: function(e) {
-    //this.props.removeItem();
+  toggleStarred: function(e) {
+    this.setState({starred: !this.state.starred});
+    this.props.starred = this.state.starred;
+    this.props.toggleStarred(this.props.index, !this.state.starred);
   },
   render: function() {
     return (
       <div className="controls">
-        <div className={"star star-"+this.state.starred} onClick={this.handleClick}></div>
-        <div className="remove" onClick={this.remove}>x</div>
+        <div className={"star star-"+this.state.starred} onClick={this.toggleStarred}></div>
+        <div className="remove" onClick={this.removeBubl}></div>
       </div>
     );
   }

@@ -86,9 +86,9 @@ body {
   -moz-animation-fill-mode:forwards;
   animation-fill-mode:forwards;
 
-  -webkit-animation-duration:1.5s;
-  -moz-animation-duration:1.5s;
-  animation-duration:1.5s;
+  -webkit-animation-duration:0.4s;
+  -moz-animation-duration:0.4s;
+  animation-duration:0.4s;
 }
 
 .example-enter.example-enter-active {
@@ -97,7 +97,7 @@ body {
 
 .example-leave {
   opacity: 1;
-  transition: opacity .5s ease-in;
+  transition: opacity .3s ease-in;
 }
 
 .example-leave.example-leave-active {
