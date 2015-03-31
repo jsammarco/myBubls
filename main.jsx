@@ -32,11 +32,7 @@ var Bubls = React.createClass({
       localStorage.setItem('items', JSON.stringify(
           [{
             "starred": false,
-            "text": "This is my bubl that I made! This bubl can hold your notes and more.",
-          },
-          {
-            "starred": true,
-            "text": "Showing at 4:45pm Sunday"
+            "text": "This is a bubl. Try it out!",
           }]
       ));
     }
